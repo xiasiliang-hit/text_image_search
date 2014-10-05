@@ -1,0 +1,36 @@
+# depslib dependency file v1.0
+1412461742 source:/home/danny/work/text/common.cpp
+	"common.h"
+
+1412532905 /home/danny/work/text/common.h
+	<memory.h>
+	<cmath>
+	<algorithm>
+	<vector>
+	<string>
+	<ctime>
+	<fstream>
+	<map>
+	<iostream>
+	<vector>
+	<string>
+	"stdio.h"
+	<sstream>
+	<utility>
+	<boost/serialization/string.hpp>
+	<boost/serialization/vector.hpp>
+	<boost/archive/text_oarchive.hpp>
+	<boost/archive/text_iarchive.hpp>
+
+1412539728 source:/home/danny/work/text/main.cpp
+	"stdio.h"
+	"text.h"
+	"common.h"
+
+1412528698 /home/danny/work/text/text.h
+	"common.h"
+
+1412536574 source:/home/danny/work/text/text.cpp
+	"text.h"
+	"common.h"
+
