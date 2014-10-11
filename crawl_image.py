@@ -69,8 +69,8 @@ def download_images():
             if id_flag == False:
                 fail_id += 1
 
-        print "failed id count: " + str(fail_id)
-        print "failed url count: " + str(fial_url)
+    print "failed id count: " + str(fail_id)
+    print "failed url count: " + str(fail_url)
         
 def main():
     download_images()
