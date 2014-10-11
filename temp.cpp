@@ -2,9 +2,8 @@
 #include "text.h"
 #include "common.h"
 #include "parallel.h"
-#include "porter.h"
-
 using namespace std;
+
 
 const string objfilename_bin = "text.bin";
 
@@ -18,6 +17,7 @@ void dump(TEXT& t)
         oa << t;
         ofs.close();
     }
+
 
     //write_index_bin();
     //write_freq_bin();
@@ -63,6 +63,8 @@ void test2()
 
     }
 
+
+
     TEXT t2;
     std::ifstream ifs("./test.bin");
     {
@@ -78,8 +80,10 @@ void test2()
         ifs.close();
     }
 
+
     cout << t2.t_vector[0][0] << endl;
     cout << t2.t_vector[1][1] << endl;
+
 
     cout << t.array[0] << endl;
     cout << t.array[99] << endl;
@@ -88,6 +92,7 @@ void test2()
 
 void test3()
 {
+
     TEXT t;
     t.read_txt();
     dump(t);
@@ -108,6 +113,7 @@ void test3()
         cout << i << endl;
         cout << t2.titles.at(i) << endl;
     }
+
 
 /*
     cout << t2.inverted_index[0][0] << endl;
@@ -131,7 +137,7 @@ void test3()
 }
 
 
-/*
+
 void test()
 {
 	TEXT t;
@@ -171,119 +177,41 @@ void test()
 	//t.build_index_array();
 
 }
-*/
-void parallel_thread_main(void* params)
-{
-	vector<int> my_rows = ((PARALLEL_THREAD_PARAM*)params) -> unique_is;
-	static TEXT t;
-	((PARALLEL_THREAD_PARAM* )params) -> result =  t.multiway_merge_single(my_rows);
+
+vector< pair<int, double> > parallel_thread_main(void* params)
+{	
+	vector<int> my_rows = (PARALLEL_THREAD_PARAM*)params -> unique_is;
+
+	TEXT t;
+	(PARALLEL_THREAD_PARAM* )params -> result =  t.multiway_merge_single(my_rows);
+	
+	
+	return;
 }
+
+
 
 
 int main(){
 
+	//	vector<int> begins = init();
 
-string s = "Unotux Boys Suits Formal Wedding Eggplant Purple Satin Bow Tie from Baby to Teen";
+	vector< pair<int, double> > v = init();
+    PARALLEL_THREAD_PARAM* params = new PARALLEL_THREAD_PARAM [n_thread];
 
+	for (PARALLEL_THREAD_PARAM* p = params; p <= params; p++)
+		{
+			static const int arr[] = {1, 2, 3, 4};
+			vector<int> begins (arr, arr + sizeof(arr) / sizeof(arr[0]) );		
 
-/*
-for (vector<string>::iterator it = str_v.begin(); it <= str_v.end()-1; it++)
-{
-    string s = stem_my(*it);
-
-    processed.push_back(s);
-}
-*/
-
-
-
-
-
-//cout << stem_my("words") << endl;
-
-    TEXT t;
-    t.read_txt();
-    t.write_index_bin();
-    //t.write_freq_bin();
-    t.write_word_bin();
-    t.read_index_bin();
+			
+			p -> unique_is = begins;
+		}
+	
 
 
-    vector<int> preprocessed = t.process_query(s);
-
-    vector< vector<int> > assigned_i(n_machine);
-/*
-//manager machine
-    if (true)
-    {
-        //vector<int> preprocessed;  //preprocessed_id
-
-        //assign rows
-        for (int i = 0; i <= preprocessed.size() - 1; i++)
-        {
-            assigned_i.at(i % n_machine).push_back(i);
-        }
-
-        //t.merge_grades from all machines;
-        vector< vector< pair<int, double> > > received;
-        vector< pair<int, double> > merged = t.merge_grades(received);
-
-        std::nth_element(merged.begin(), merged.begin() + n_query_returned, merged.end(), CompareSecondDouble);
-
-        double g = (*(merged.begin() + n_query_returned)).second;
-
-        for (vector< pair<int, double> >::iterator it = merged.begin(); it <= merged.end() -1; it++)
-        {
-            if ((*it).second >= g)
-                cout << (*it).first << endl;
-        }
-
-    }
-*/
-/*
-    //slave node
-    if (true)
-    {
-        vector< vector< pari<int. double> > > rst;
-        //parameters for threads
-        vector<void*> v_params;
-
-
-        for (int i = 0; i <= n_thread - 1; i++)
-        {
-//            static const int arr[] = {1, 2, 3, 4};
-//            vector<int> begins (arr, arr + sizeof(arr) / sizeof(arr[0]) );
-
-
-            //get his own tasks $$$s
-            vector<int> begins = assigned_i.at(current_node);
-
-            PARALLEL_THREAD_PARAM* param = new PARALLEL_THREAD_PARAM();
-            param -> unique_is = begins;
-
-            v_params.push_back(param);
-        }
-
-        Parallel pthreads;
-        pthreads.Run(parallel_thread_main, v_params);
-
-        for (int j = 0; j <= n_thread - 1; j++)
-        {
-            vector< pair<int, double> > v  = ((PARALLEL_THREAD_PARAM*)v_params.at(j)) -> result;
-            rst.push_back(v);
-
-            cout << "------in main" << j << endl;
-            for (int k = 0; k <= v.size() -1; k++)
-            {
-                cout << v[k].first << endl;
-                cout << v[k].second << endl;
-            }
-        }
-
-        //send rst;
-    }
-*/
-
+	Parallel pthreads;
+	pthreads.run(parallel_thread_main, params);
 
 	//string path_to_mapper = "model/mapper.txt";
 	//string path_to_index = "model/index.txt";
@@ -309,7 +237,17 @@ for (vector<string>::iterator it = str_v.begin(); it <= str_v.end()-1; it++)
 
 
 
+    TEXT t;
 
+
+    t.read_txt();
+
+    t.write_index_bin();
+    //t.write_freq_bin();
+    t.write_word_bin();
+
+
+    t.read_index_bin();
 
 
     /*
@@ -354,20 +292,6 @@ cout << cost << endl;
 
     //test3();
 
-/*
-    TEXT t;
-
-
-    t.read_txt();
-
-    t.write_index_bin();
-    //t.write_freq_bin();
-    t.write_word_bin();
-
-
-    t.read_index_bin();
-
-
     vector<int> heads1;
     heads1.push_back(1);
     heads1.push_back(2);
@@ -382,6 +306,8 @@ cout << cost << endl;
     vector<int> heads2;
     heads2.push_back(3);
     heads2.push_back(4);
+
+
 
 
     vector< pair<int, double> > v2;
@@ -404,6 +330,4 @@ cout << cost << endl;
         }
     }
     //cout << "";
-
-    */
 }

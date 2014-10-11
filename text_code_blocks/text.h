@@ -1,6 +1,7 @@
 #ifndef TEXT_H
 #define TEXT_H
 #include "common.h"
+#include "porter.h"
 
 using namespace std;
 
@@ -13,26 +14,27 @@ public:
 	std::vector<string> words; /*word->code mapping*/
     std::vector<string> titles;
 
-
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version)
     {
+        /*
         ar & inverted_index;
         ar & words;
         ar & freqs;
         ar & titles;
+        */
+        //ar & test_vector;
+        ar & test_vector;
     }
 
-
+    std::vector<int> test_vector;
+    //int* parray ;
 	//	int sz_total_index;
 	//	int word[sz_dict];
-
-
 /*
     std::vector< vector<string> > t_vector;
     string array [100];
-
 
     friend class boost::serialization::access;
 
@@ -43,13 +45,15 @@ public:
         ar & (array);
     }
 */
-    string total_word[sz_dict + 1];
-    double total_freq[sz_dict + 1];
+
+    static string total_title[sz_title + 1] ;
+    static string total_word[sz_dict + 1];
+    static double total_freq[sz_dict + 1];
 
     std::vector<int> index;
 
-  int pointer[sz_dict + 1];
-  int total_index[sz_total_index+1];
+    int static pointer[sz_dict + 1];
+    int static total_index[sz_total_index + 1];
 
 	TEXT();
 	//TEXT(ifstream &is);
@@ -78,32 +82,35 @@ public:
 	*	-1 -- fail
 	*/
 
-	void read_dict();
-	void read_index();
-	void read_freq();
+    void read_dict();
+    void read_index();
+    void read_freq();
     void read_title();
 
     void read_txt();
-
-
 
     void dump();
     void load_bin();
 	//void build_index_array();
 
-void write_index_bin();
-void read_index_bin();
-
-
-
+    void write_index_bin();
+    void read_index_bin();
 
 	void write_word_bin();
-
 	void write_freq_bin();
 	void write_reverse_index_bin();
 
-	void serialize();
-	void deserialize();
+	//return length
+    int get_row(int row_num, int& begin, int& end);
 
+    //merge rows for different rows
+    vector< pair<int, double> >  multiway_merge_single(vector<int> heads);
+
+    //merge the result from differnt threads
+    vector< pair<int, double> > merge_grades(vector< vector< pair<int, double> > > v);
+
+    void error_msg(char* function, char* msg, char* para = "");
+
+    vector<int> process_query(string str);
 };
 #endif

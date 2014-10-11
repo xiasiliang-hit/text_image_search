@@ -9,6 +9,7 @@ const string freqfilename = prefix + "freq.txt";
 const string wordfilename = prefix + "mapper.txt";
 const string titlefilename = prefix + "TITLE";
 
+const string errorfilename = "error.txt";
 
 const string indexfilename_bin = prefix +  "index.bin";
 const string freqfilename_bin = prefix + "freq.bin";
@@ -18,9 +19,26 @@ const string pointerfilemane_bin = prefix + "pointer.bin";
 
 
 bool comp_int_double(const pair<int, double>& l, const pair<int, double>& r);
+bool comp_int_int_small(const pair<int, int>& l, const pair<int, int>& r);
+
+string TEXT::total_title[sz_title + 1];
+string TEXT::total_word[sz_dict + 1];
+double TEXT::total_freq[sz_dict + 1];
+
+int TEXT::pointer[sz_dict + 1];
+int TEXT::total_index[sz_total_index + 1];
 
 
 TEXT::TEXT(){
+    /*
+    string total_title[sz_title + 1];
+    string total_word[sz_dict + 1];
+    double TEXT::total_freq[sz_dict + 1];
+
+    int TEXT::pointer[sz_dict + 1];
+    int TEXT::total_index[sz_total_index + 1];
+*/
+
 //sz_dict = 0;
 	//inverted_index = 0;
 }
@@ -43,8 +61,6 @@ void TEXT::read_txt()
 
 
 /*
-
-
 
 int TEXT::Initialize(std::string path_to_mapper, std::string path_to_index, std::string path_to_freq){
 	puts("---------------------------");
@@ -105,7 +121,6 @@ vector< pair<int, double> >TEXT::SearchText( vector<string> keywords, const int&
     //vector<int> t_indexs;
 
     vector< pair<int, double> > result;
-
     vector<int> t_indexs;  //index of title for grading
     vector<double> scores;
 
@@ -259,9 +274,11 @@ void TEXT::read_dict()
 
     while (fin >> word)
     {
-        words.push_back(word);
-        //total_word[i] = (word);
-         i++;
+
+
+        //words.push_back(word);
+        total_word[i] = (word);
+        i++;
     }
     fin.close();
 }
@@ -279,14 +296,12 @@ void TEXT::read_freq()
 
     while (fin >> word >> freq )
     {
-        freqs.push_back(freq);
-        //total_freq[i] = (freq);
+        //freqs.push_back(freq);
+        total_freq[i] = (freq);
         i++;
     }
     fin.close();
-
 }
-
 
 void TEXT::read_index()
 {
@@ -312,9 +327,6 @@ void TEXT::read_index()
 	    pointer[i] = count;
         s = s + " ";
 
-		if (i <=2)
-			cout << s << endl;
-
 		string split =  " ";
 		string token = "";
 		int j = 0;
@@ -323,36 +335,32 @@ void TEXT::read_index()
 		size_t end = s.find(split, head);
 		cout << s << endl;
 
-if (i==sz_dict && debug)
-{
-    cout << "line:548";
-}
+        if (i==sz_dict && debug)
+        {
+            cout << "line:548";
+        }
 
-    vector<int> current_word;
+        vector<int> current_word;
 		while (end != string::npos) {
 			token = s.substr(head, end);
-			//			cout << token << endl;
 
 			int num = atoi(token.c_str());
 
-			//index.push_back(num);
-//total_index[count] = num;
-current_word.push_back(num);
-
-
+            TEXT::total_index[count] = num;
+//            current_word.push_back(num);
 			head = end + 1;
 			end = s.find(split, head);
 			//j++;
             count++;
 			//	cout <<"j:"<< j << endl;
 		}
-inverted_index.push_back(current_word);
- //cout << "here";
 
+//        inverted_index.push_back(current_word);
 		i++;
-		//cout << "i:" << i << endl;
 	}
-/*
+
+    fin.close();
+    /* debug
 	for (int k =0; k<= index.size()-1;k++)
 		{
 			for (int j =0; j<= index.size() -1; j++)
@@ -360,9 +368,15 @@ inverted_index.push_back(current_word);
 
 					cout << index[i][j];
 				}
-}
-*/
+    }
+    */
 
+
+    cout << "sz_dict: " << sz_dict << endl;
+    cout << "actual size of dict: " << i << endl;
+
+    cout << "sz_total_index: " << sz_total_index << endl;
+    cout << "actual size of index: " << count << endl;
 }
 
 void TEXT::read_title()
@@ -389,25 +403,31 @@ void TEXT::read_title()
             break;
         }
 
-        titles.push_back(title);
-        //total_word[i] = (word);
-         i++;
+        total_title[i] = title;
+        //titles.push_back(title);
+        i++;
+
+        if (i == 1098)
+            cout << i << endl;
     }
     fin.close();
+
+    cout << "sz_title: " << sz_title << endl;
+    cout << "actual size of title: " << i << endl;
 }
 
 void TEXT::write_index_bin()
 {
-	FILE* fout ;
+	FILE* fout;
 
 	if (fout = fopen(indexfilename_bin.c_str(), "wb"))
 	{
-	    fwrite(total_index, sizeof(int), sz_total_index + 1, fout);
+	    fwrite(TEXT::total_index, sizeof(int), sz_total_index + 1, fout);
 	    fclose(fout);
     }
     else
     {
-        cout << "error: " + indexfilename_bin << endl;
+        //error_msg("write_index_bin".c_str(), indexfilename_bin.c_str(), "".c_str());
     }
 
     if (fout = fopen(pointerfilemane_bin.c_str(), "wb"))
@@ -418,9 +438,9 @@ void TEXT::write_index_bin()
 
     else
     {
-        cout << "error: " + pointerfilemane_bin << endl;
+        //error_msg("write_index_bin".c_str(), pointerfilemane_bin.c_str(), "".c_str());
     }
-
+}
 
 
 /*
@@ -449,7 +469,7 @@ void TEXT::write_index_bin()
 	for(std::vector<int>
 		 vector)
 		 */
-}
+
 
 void TEXT::read_index_bin()
 {
@@ -457,7 +477,7 @@ void TEXT::read_index_bin()
 
     if (fin = fopen(indexfilename_bin.c_str(), "r"))
 	{
-	    fread(total_index, sizeof(int), sz_total_index + 1, fin);
+	    fread(TEXT::total_index, sizeof(int), sz_total_index + 1, fin);
 	    fclose(fin);
     }
     else
@@ -482,7 +502,7 @@ void TEXT::write_word_bin()
 {
     FILE* fin;
 
-    if (fin = fopen(wordfilename.c_str(), "wb"))
+    if (fin = fopen(wordfilename_bin.c_str(), "wb"))
 	{
 	    fwrite(total_word, sizeof(int), sz_total_index + 1, fin);
 	    fclose(fin);
@@ -504,4 +524,185 @@ void TEXT::write_word_bin()
     }
 }
 
+//return a row of index
+//beign will be pointer to the beignning of the row, end will be pointed the end of the row
+int TEXT::get_row(int row_num, int& begin, int& end)
+{
+    int length = 0;
+    if (row_num >= 0 && row_num <= sz_dict - 1 )
+    {
+        begin = pointer[row_num];
+        end = pointer[row_num + 1];
+
+        length = end - begin;
+    }
+    else
+    {
+        //error_msg("get_row", "index out of range", "");
+    }
+    return length;
+}
+
+
+vector< pair<int, double> >  TEXT::multiway_merge_single(vector<int> heads)
+{
+    vector< pair<int, double> >result;
+
+    vector<R_INFO> row_infos;
+
+    for (vector<int>::iterator it = heads.begin(); it <= heads.end()-1; it++)
+    {
+        int row_num = *it;
+
+        int begin = 0;
+        int end = 0;
+
+        int len = get_row(row_num, begin, end);
+
+        R_INFO r_info = {
+            row_num,
+
+            begin,
+            end,
+        };
+        row_infos.push_back(r_info);
+    }
+
+
+    std::priority_queue< pair<int, int>, vector< pair<int, int> >, CompareFirstInt > pq;
+    for (vector<R_INFO>::iterator it = row_infos.begin(); it <= row_infos.end() - 1; it++)
+    {
+        int begin = it -> row_begin;
+        int end = it -> row_end;
+        int unique_i = it -> unique_i;
+
+        for (int i = begin; i<= end - 1; i++)
+        {
+            int content = TEXT::total_index[i];
+
+            pq.push(pair<int, int>(content, unique_i));
+        }
+    }
+
+    while (!pq.empty())
+    {
+        int top = pq.top().first;
+        int unique_i = pq.top().second;
+
+        double wgt = 1.0f/double(total_freq[unique_i]);
+
+        if (!result.empty())
+        {
+            if (result.back().first == top  )
+            {
+                result.back().second += wgt;
+            }
+
+            else
+            {
+                result.push_back(pair<int, double>(top, wgt));
+            }
+        }
+        else
+        {
+            result.push_back(pair<int, double>(top, wgt));
+        }
+
+        pq.pop();
+    }
+
+
+    if (debug)
+    {
+        cout << "--vector returned in muiltway merge" << endl;
+        for (int i = 0; i<= result.size()-1; i++)
+        {
+            cout << (result[i].first) << endl;
+            cout << (result[i].second) << endl;
+        }
+    }
+
+    return result;
+}
+
+vector< pair<int, double> > TEXT::merge_grades(vector< vector< pair <int, double> > > v)
+{
+    vector< pair<int, double> >result;
+
+    priority_queue< pair<int, int>, vector< pair<int, int> >, CompareFirstInt > pq;
+
+    for (int i = 0; i <= v.size()-1; i++)
+    {
+        for (int j = 0; j<= v[i].size()-1; j++)
+        {
+            pq.push(v[i][j]);
+        }
+    }
+
+    while (!pq.empty())
+    {
+        if (!result.empty())
+        {
+            int top = pq.top().first;
+            double grade = pq.top().second;
+
+            if (result.back().first == top)
+            {
+                result.back().second += grade;
+            }
+            else
+            {
+                result.push_back(pq.top());
+            }
+        }
+        else
+        {
+            result.push_back(pq.top());
+        }
+        pq.pop();
+    }
+
+    return result;
+}
+
+vector<int> TEXT::process_query(string str)
+{
+    vector<string> preprocessed_str  = preprocess(str);
+    vector<int> result(preprocessed_str.size());
+
+    for (vector<string>::iterator it = preprocessed_str.begin(); it <= preprocessed_str.end()-1; it++)
+    {
+        //cout << *it << endl;
+        string str(*it);
+
+        int pos = binarySearch(TEXT::total_word, 0, sz_dict, str);
+
+        int p = 0;
+        //int pos = 0;
+        if (pos != -1)
+        {
+            //pos = p - TEXT::total_word;
+            result.push_back(pos);
+        }
+        else
+        {}
+    }
+}
+
+
+
+void error_msg(char* function, char* msg, char* para = "")
+{
+    ofstream ofs(errorfilename.c_str());
+    if (ofs)
+    {
+        ofs << "f:" << function << endl;
+        ofs << "error:" << "msg" << endl;
+        ofs << "additon" << para << endl;
+    }
+    else
+    {
+        cout << "can not output error log" <<endl;
+    }
+}
 
