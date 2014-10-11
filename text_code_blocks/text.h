@@ -87,23 +87,29 @@ public:
     void read_freq();
     void read_title();
 
+    /*  read all text files
+    */
     void read_txt();
 
-    void dump();
-    void load_bin();
-	//void build_index_array();
 
+
+    void dump();  //obsolete
+    void load_bin();  //obsolete
+
+    //wirte index to binary file
     void write_index_bin();
+
+    //read index from binary file
     void read_index_bin();
 
 	void write_word_bin();
 	void write_freq_bin();
-	void write_reverse_index_bin();
 
-	//return length
+	//get the beginning position and ending postion in index array, given the code of keyword
     int get_row(int row_num, int& begin, int& end);
 
     //merge rows for different rows
+    //heads: array of indice(code of keyword) that specifies the rows to be merged
     vector< pair<int, double> >  multiway_merge_single(vector<int> heads);
 
     //merge the result from differnt threads
@@ -111,6 +117,8 @@ public:
 
     void error_msg(char* function, char* msg, char* para = "");
 
+    //process query string, tokenize, lower case, stem
+    //return code of keywords
     vector<int> process_query(string str);
 };
 #endif

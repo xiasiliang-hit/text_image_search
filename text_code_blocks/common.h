@@ -31,13 +31,13 @@ using namespace std;
 
 extern clock_t begin_ts; //used for measuring time elapsed.
 
-const int sz_dict = 548;
-const int sz_title = 1470;
-const int sz_total_index = 14836;
+const int sz_dict = 548;  //number of dict
+const int sz_title = 1470;  //number of titles
+const int sz_total_index = 14836;  //size of array storing inverted index
 
 const int n_thread = 6;
 const int n_machine = 3;
-const int n_query_returned = 10;
+const int n_query_returned = 10;  //specify the number of results to be returned
 
 const bool debug = false;
 

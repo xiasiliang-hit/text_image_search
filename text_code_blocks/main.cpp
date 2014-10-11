@@ -175,7 +175,7 @@ void test()
 void parallel_thread_main(void* params)
 {
 	vector<int> my_rows = ((PARALLEL_THREAD_PARAM*)params) -> unique_is;
-	static TEXT t;
+	TEXT t;
 	((PARALLEL_THREAD_PARAM* )params) -> result =  t.multiway_merge_single(my_rows);
 }
 
