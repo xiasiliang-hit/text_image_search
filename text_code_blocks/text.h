@@ -14,19 +14,22 @@ public:
 	std::vector<string> words; /*word->code mapping*/
     std::vector<string> titles;
 
+/*
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version)
     {
-        /*
+
         ar & inverted_index;
         ar & words;
         ar & freqs;
         ar & titles;
-        */
+
         //ar & test_vector;
         ar & test_vector;
     }
+*/
+
 
     std::vector<int> test_vector;
     //int* parray ;
@@ -115,7 +118,7 @@ public:
     //merge the result from differnt threads
     vector< pair<int, double> > merge_grades(vector< vector< pair<int, double> > > v);
 
-    void error_msg(char* function, char* msg, char* para = "");
+    //void error_msg(char* function, char* msg, char* para = "");
 
     //process query string, tokenize, lower case, stem
     //return code of keywords

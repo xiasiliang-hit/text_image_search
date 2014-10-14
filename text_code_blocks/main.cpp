@@ -8,6 +8,7 @@ using namespace std;
 
 const string objfilename_bin = "text.bin";
 
+/*
 void dump(TEXT& t)
 {
     std::ofstream ofs(objfilename_bin.c_str());
@@ -40,6 +41,8 @@ void load_bin(TEXT& t)
         ifs.close();
     }
 }
+*/
+
 /*
 void test2()
 {
@@ -85,7 +88,7 @@ void test2()
     cout << t.array[99] << endl;
 }
 */
-
+/*
 void test3()
 {
     TEXT t;
@@ -108,7 +111,7 @@ void test3()
         cout << i << endl;
         cout << t2.titles.at(i) << endl;
     }
-
+*/
 /*
     cout << t2.inverted_index[0][0] << endl;
     int x = t2.inverted_index.size() -1;
@@ -126,10 +129,10 @@ void test3()
     cout << "----" << endl;
     cout << t2.words[0];
     cout << t2.words[547];
-*/
+
 
 }
-
+*/
 
 /*
 void test()

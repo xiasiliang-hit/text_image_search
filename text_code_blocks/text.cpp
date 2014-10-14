@@ -690,7 +690,7 @@ vector<int> TEXT::process_query(string str)
 }
 
 
-
+/*
 void error_msg(char* function, char* msg, char* para = "")
 {
     ofstream ofs(errorfilename.c_str());
@@ -705,4 +705,4 @@ void error_msg(char* function, char* msg, char* para = "")
         cout << "can not output error log" <<endl;
     }
 }
-
+*/
