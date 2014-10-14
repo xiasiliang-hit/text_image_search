@@ -34,3 +34,51 @@
 	"text.h"
 	"common.h"
 
+1413307690 source:/Users/danny/work/ds~/text_code_blocks/common.cpp
+	"common.h"
+
+1413307690 /Users/danny/work/ds~/text_code_blocks/common.h
+	<stdio.h>
+	<string.h>
+	<memory.h>
+	<cmath>
+	<algorithm>
+	<vector>
+	<queue>
+	<string>
+	<ctime>
+	<fstream>
+	<map>
+	<iostream>
+	"stdio.h"
+	<sstream>
+	<utility>
+	<boost/serialization/string.hpp>
+	<boost/serialization/vector.hpp>
+	<boost/archive/text_oarchive.hpp>
+	<boost/archive/text_iarchive.hpp>
+
+1413307690 source:/Users/danny/work/ds~/text_code_blocks/main.cpp
+	"stdio.h"
+	"text.h"
+	"common.h"
+	"parallel.h"
+	"porter.h"
+
+1413307690 /Users/danny/work/ds~/text_code_blocks/text.h
+	"common.h"
+	"porter.h"
+
+1413307690 source:/Users/danny/work/ds~/text_code_blocks/text.cpp
+	"text.h"
+	"common.h"
+
+1413307690 /Users/danny/work/ds~/text_code_blocks/porter.h
+	"common.h"
+
+1413307690 /Users/danny/work/ds~/text_code_blocks/parallel.h
+	<vector>
+	<pthread.h>
+	<cstring>
+	"common.h"
+
