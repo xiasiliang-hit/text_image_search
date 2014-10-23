@@ -1,3 +1,8 @@
+#build wordlist
+#build wordlist with frequency
+
+#generate three bin files and freq.txt
+
 import nltk
 from nltk.corpus import stopwords
 
@@ -6,34 +11,31 @@ import cPickle as pkl
 import sys
 import codecs
 import pdb
-
+from multiprocessing import Process, Pipe, Manager
+import threading
+from threading import Thread
 
 debug = False
+thread_n = 16
 
 
-prefix = "./small/"
+prefix = "./multi/"
 
 
 titlefilename = prefix + "TITLE"
 dictfilename = prefix + "freq.txt"
 testfilename = prefix + "test.txt"
 
-
-dict_binfilename = prefix + "dict.bin"
-title_binfilename = prefix + "title.bin"
-word_binfilename = prefix + "word.bin"
+dict_binfilename = prefix + "dict.bin"  #dictionary with frequency 
+title_binfilename = prefix + "title.bin"  
+word_binfilename = prefix + "word.bin"  #key word list sorted
 
 reverse_index_binfilename = prefix + "index.bin"
 
-#indexfilename = "index.txt'"
-
-
-word_global  = []
-title_global = []
+#word_global  = []
+#title_global = []
 
 dict_global = {}
-
-thread_n = 8
 
        
 #get rid of special characters
@@ -124,7 +126,7 @@ def build_dict(filename):
     for line in lines:
 
         i += 1
-        print i
+        #print i
         
         str_all += line
 
@@ -134,7 +136,7 @@ def build_dict(filename):
     if debug:
         pdb.set_trace()
 
-    #wirte to bin file
+    #wirte to bin file, dictionary with frequency
     pkl.dump(dict_word, open(dict_binfilename, "wb"))
 
     fout = open(dictfilename, "w")    
@@ -197,7 +199,6 @@ def test():
         result_list.append(line)
     
     pkl.dump(result_list, open("result_list.bin", "wb"))
-    return
 
 #    l = pkl.load(open("result_list.bin"))
 
@@ -223,27 +224,36 @@ def test():
         #print line.encode("utf-8", "strict")
 #        print line.encode("ascii").decode("ascii")
     
+    return
 
 
 
-def build_index():
-
+def build_index(titles, start, end, loci):
+    #pdb.set_trace()
     print "build_index"
 
-    title_global = pkl.load(open(title_binfilename))
-    word_global = read_word_bin()
-    index_result = [None] * len(word_global)
+    #global word_global
+    #global title_global
     
+    title_global = titles#read_title_bin()
+    #title_piece = title_global[start:end]  ##only a loci for processing
+    word_global = read_word_bin()
+    
+    index_result = [None] * len(word_global)
+    #init so that it is [] instead of None
+    for i in range(0, len(word_global)):
+        index_result[i] = []
 
 #    i = 0
-    for i in range(0, len(title_global)):
+    for i in range(start, end):
         title = title_global[i]
-        
-        #i += 1
-#        print title
-        print i
 
-#        if (i == 2):
+        if loci == 0:
+            print str(loci) + ":" + str((float)(i-start)/(end-start))
+#        print title
+        
+
+#        if (i == 1434):
 #            pdb.set_trace()
         
         
@@ -269,20 +279,48 @@ def build_index():
                 title_list.append(i)
                 index_result[pos] = title_list
 
-    print "write bin"
-
+    #print "write bin"
     
     #pkl.dump(word_global, open("word_global.bin", "wb"))
     #pkl.dump(title_global, open("title_global.bin", "wb"))
-    pkl.dump(index_result, open(reverse_index_binfilename, "wb"))
 
-    
+#have not been merged 
+#    pkl.dump(index_result, open(reverse_index_binfilename, "wb"))    
+
+    return index_result
+
+
+#not used here
+#used in next step in seasrch.py    
 def read_dict():
     return pkl.load(open(dict_binfilename))
 
+
+def test1():
+
+    print "test1"
+    title_global.append("test1")
+#l = []
+        #l = r
+    #return r
+
+def test2():
+
+    print "test2"
+    print len(title_global)
+
+def multi_index(titles, start, end, loci, conn):
     
+    l = build_index(titles, start, end, loci)
+    conn.send(l)
+
+    return 
+
+
+
 if __name__ == "__main__":
-#    parse()
+
+    #    parse()
     
 #    str = readfile(sys.argv[1])
 #    ie_process(str)
@@ -290,7 +328,6 @@ if __name__ == "__main__":
 
 
 #    evaluate(sys.argv[1])    
-
 #    test()
 #    dict_test = build_candidate_vector(sys.argv[1])
     
@@ -302,12 +339,73 @@ if __name__ == "__main__":
 #     print len(dict_test)
 # #   
 
-    
-    build_dict(titlefilename)
-    write_title_bin()
 
+ 
+#    build_dict(titlefilename)
+#    write_title_bin()    
+    mg = Manager()
+    title_global = read_title_bin()
+    title_mg = mg.list(title_global)
+    word_global = read_word_bin()
     
-    build_index()
+    
+    l_result = []
+    p_pool = []
+    l_parent_conn = []
+    
+    for i in range(0, thread_n):
+        start = int(i * len(title_global) / thread_n)
+        end = int((i+1) * len(title_global) / thread_n)
+        
+#        start = i *5
+#        end = (i+1) *5
+#        pdb.set_trace()
+        parent_conn, child_conn = Pipe()
+        p = Process(target = multi_index, args = (title_mg, start, end, i, child_conn, ))
+        p_pool.append(p)
+        l_parent_conn.append(parent_conn)
+        
+        p.start()
+        
+    for p in p_pool:
+        p.join()
+
+    for i in range(0, thread_n):
+        parent_conn = l_parent_conn[i]
+        l = parent_conn.recv()
+        l_result.append(l)
+
+    if debug:
+        t =0
+        ind = 0
+        for i in range(0, thread_n):
+            print l_result[i][ind]
+
+#    pdb.set_trace()
+        
+    final_index = [None]* len(word_global)
+    
+    #merge
+    for j in range(0, len(word_global)):
+        merged = []
+        for k in range(0, thread_n):
+            merged = merged + l_result[k][j]
+            
+        final_index[j] = merged
+
+#    pdb.set_trace()
+
+    print "write index bin"
+    pkl.dump(final_index, open(reverse_index_binfilename, "wb"))
+    
+        
+
+
+    #    pdb.set_trace()
+    
+    
+    
+#    build_index()
 
 #    l = read_title_bin()
 
@@ -326,96 +424,3 @@ if __name__ == "__main__":
 
 
 
-
-
-    
-#return list
-def build_candidate_vector(filename):
-
-    print "f: build_candidate_vector"
-    
-    f = open(filename)
-    lines = f.readlines()
-    f.close()
-
-
-    title_list = []
-    for line in lines:
-        title_list.append(line)
-
-
-    vector_list = []
-    for title in title_list:
-        vector_dict = make_freqency_vector(title)
-        vector_list.append(vector_dict)
-
-    return vector_list
-
-
-#not used
-def rank_bagofwords(title, filename):
-    print "begin rank_bagofwords()"
-
-    target_vector = make_freqency_vector(title)
-
-    candidate_vectors = build_candidate_vector(filename)
-
-    distance_list = []
-    
-    for vector in candidate_vectors:
-        distance = 0
-        
-        for word in vector.keys():
-            if word in target_vector.keys():
-                a = vector[word]
-                b = target_vector[word]
-                                
-            else:
-                a = vector[word]
-                b = 0
-
-            distance += (a - b) * (a - b)
-
-        for word in target_vector.keys():
-            if word in vector.keys():
-                #already calculatd in previous for loop
-                a = 0
-                b = 0
-            else:
-                a = 0
-                b = target_vector[word]
-
-            distance += (a - b) * (a - b)
-
-        distance_list.append(distance)
-
-    sorted_list = sorted(distance_list)
-        
-    return (distance_list, sorted_list)
-
-def evaluate(filename):
-    print "begin evaluate()"
-
-    title_list = []
-    f = open (filename)
-    lines = f.readlines()
-    for line in lines:
-        title_list.append(line)
-
-    total = len(title_list)
-
-
-    print "loading finished"
-    for index in range(0, len(title_list)):
-        
-        title = title_list[index]
-        distance_list, sorted_list = rank_bagofwords(title, filename)
-        
-        score = distance_list[index]
-        rank = sorted_list.index(score) + 1
-
-        rate = rank / total
-
-        print "=="
-        print index
-        print rate
