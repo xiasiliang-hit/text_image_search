@@ -26,7 +26,7 @@ string TEXT::total_word[sz_dict + 1];
 double TEXT::total_freq[sz_dict + 1];
 
 int TEXT::pointer[sz_dict + 1];
-int TEXT::total_index[sz_total_index + 1];
+INDEX_ITEM TEXT::total_index[sz_total_index + 1];
 
 
 TEXT::TEXT(){
@@ -274,8 +274,6 @@ void TEXT::read_dict()
 
     while (fin >> word)
     {
-
-
         //words.push_back(word);
         total_word[i] = (word);
         i++;
@@ -335,18 +333,22 @@ void TEXT::read_index()
 		size_t end = s.find(split, head);
 		cout << s << endl;
 
-        if (i==sz_dict && debug)
+        if (count == 14315)
         {
-            cout << "line:548";
+            cout << "line:14315";
         }
+
 
         vector<int> current_word;
 		while (end != string::npos) {
 			token = s.substr(head, end);
 
 			int num = atoi(token.c_str());
+            int feature_repeat = 1;
 
-            TEXT::total_index[count] = num;
+            INDEX_ITEM index_item = {num, feature_repeat};
+
+            TEXT::total_index[count] = index_item;
 //            current_word.push_back(num);
 			head = end + 1;
 			end = s.find(split, head);
@@ -422,7 +424,7 @@ void TEXT::write_index_bin()
 
 	if (fout = fopen(indexfilename_bin.c_str(), "wb"))
 	{
-	    fwrite(TEXT::total_index, sizeof(int), sz_total_index + 1, fout);
+	    fwrite(TEXT::total_index, sizeof(INDEX_ITEM), sz_total_index + 1, fout);
 	    fclose(fout);
     }
     else
@@ -477,7 +479,7 @@ void TEXT::read_index_bin()
 
     if (fin = fopen(indexfilename_bin.c_str(), "r"))
 	{
-	    fread(TEXT::total_index, sizeof(int), sz_total_index + 1, fin);
+	    fread(TEXT::total_index, sizeof(INDEX_ITEM), sz_total_index + 1, fin);
 	    fclose(fin);
     }
     else
@@ -497,7 +499,7 @@ void TEXT::read_index_bin()
     }
 }
 
-
+/* obselete
 void TEXT::write_word_bin()
 {
     FILE* fin;
@@ -523,6 +525,7 @@ void TEXT::write_word_bin()
         cout << "error: " + pointerfilemane_bin << endl;
     }
 }
+*/
 
 //return a row of index
 //beign will be pointer to the beignning of the row, end will be pointed the end of the row
@@ -543,7 +546,7 @@ int TEXT::get_row(int row_num, int& begin, int& end)
     return length;
 }
 
-
+/*
 vector< pair<int, double> >  TEXT::multiway_merge_single(vector<int> heads)
 {
     vector< pair<int, double> >result;
@@ -624,6 +627,7 @@ vector< pair<int, double> >  TEXT::multiway_merge_single(vector<int> heads)
 
     return result;
 }
+*/
 
 vector< pair<int, double> > TEXT::merge_grades(vector< vector< pair <int, double> > > v)
 {

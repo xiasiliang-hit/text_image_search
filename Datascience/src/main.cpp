@@ -17,7 +17,7 @@ MACHINE_STATUS machines[N_MACHINE];
 int RANK; //my rank.
  pthread_t Tid_Thread_Accept_Query;
  pthread_t Tid_Thread_Wait_Job_From_Master;
- pthread_mutex_t lock_thread_net; 
+ pthread_mutex_t lock_thread_net;
 
 
 
@@ -42,7 +42,7 @@ void* Thread_Accept_Query(void* params){
     int  n,sz_text,sz_image;
     /* First call to socket() function */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0) 
+    if (sockfd < 0)
     {
         perror("[Error] Thread_Accept_Query: opening socket");
         exit(1);
@@ -53,7 +53,7 @@ void* Thread_Accept_Query(void* params){
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(portno);
- 
+
     /* Now bind the host address using bind() call.*/
     int option = 1;
     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
@@ -112,7 +112,7 @@ void* Thread_Accept_Query(void* params){
         txt += ", stemmed = ";
         if (sz_text > 0) {
             str.text_key_words = preprocess(buffer);
-            
+
             for (int i = 0; i < str.text_key_words.size(); i++)
                 txt += str.text_key_words[i]+" ";
             vislog(txt+"\n");
@@ -316,7 +316,7 @@ void* Thread_Wait_Job_From_Master(void* params){
             continue;
         }
         query->ts_recv_by_slave = ts;
-        
+
         /*Create a thread do the query.*/
         if (pthread_create(&Tid_Thread_Slave_Do_Query, NULL, &Thread_Slave_Do_Query, query) != 0) {
             printf("[Error] System_Initialization: fail to create Thread_Wait_Job_From_Master thread.");
@@ -329,19 +329,19 @@ void* Thread_Slave_Do_Query(void* params) {
     QUERY_QUEUE_STRUCT* query = (QUERY_QUEUE_STRUCT*) params;
     query->ts_begin_process = tic();
     /* DO QUERY HERE
-     * 
+     *
      *  QUERY
-     * 
-     * 
+     *
+     *
      */
-    
+
     query->ts_after_process = tic();
-    
+
     /* SEND RESULT BACK TO MASTER
-     * 
+     *
      *  SEND RESULT
-     * 
-     * 
+     *
+     *
      */
     /*Done*/
 }
@@ -465,7 +465,7 @@ void System_Initialization_Slave(){
 
 int main(int argc, char *argv[]) {
     /*MPI initialization.*/
-	
+
     int num_processors;
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &num_processors);

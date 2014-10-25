@@ -18,12 +18,12 @@ public:
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version)
     {
-        
+
         //ar & inverted_index;
         //ar & words;
         //ar & freqs;
         //ar & titles;
-        
+
         //ar & test_vector;
         ar & test_vector;
     }*/
@@ -53,7 +53,7 @@ public:
     std::vector<int> index;
 
     int static pointer[sz_dict + 1];
-    int static total_index[sz_total_index + 1];
+    INDEX_ITEM static total_index[sz_total_index + 1];
 
 	TEXT();
 	//TEXT(ifstream &is);

@@ -32,9 +32,9 @@ using namespace std;
 
 extern clock_t begin_ts; //used for measuring time elapsed.
 
-const int sz_dict = 548;  //number of dict
+const int sz_dict = 529;  //number of dict
 const int sz_title = 1470;  //number of titles
-const int sz_total_index = 14836;  //size of array storing inverted index
+const int sz_total_index = 13626;  //size of array storing inverted index
 
 const int n_thread = 6;
 const int n_machine = 3;
@@ -48,6 +48,13 @@ typedef struct {
     int row_begin;
     int row_end;
 } R_INFO;
+
+typedef struct {
+
+    int title_image_code;
+    int feature_repeat;
+} INDEX_ITEM;
+
 
 
 class CompareFirstInt {
