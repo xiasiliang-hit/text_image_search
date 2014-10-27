@@ -2,9 +2,9 @@
 
 void* Parallel:: execute_thread(void* arg){
     ARG_EXE_THREAD* a = (ARG_EXE_THREAD*)arg;
-    a->func(a->param); 
+    a->func(a->param);
 }
-
+/*
 void Parallel::Run(void (*f)(void*),std::vector<void*>& param){
     nw = param.size();
 	if(tid) delete tid;
@@ -22,7 +22,7 @@ void Parallel::Run(void (*f)(void*),std::vector<void*>& param){
     for(int i=0;i<nw;i++)
         pthread_join(tid[i], NULL);
 }
-
+*/
 Parallel::~Parallel(){
     delete args;
     delete tid;

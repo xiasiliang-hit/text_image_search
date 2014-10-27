@@ -21,6 +21,10 @@
 
 #include <sstream>
 #include <utility>
+//#define sz_dict 548
+
+using namespace std;
+
 
 /*
 #include <boost/serialization/string.hpp>
@@ -28,7 +32,7 @@
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 */
-using namespace std;
+
 
 extern clock_t begin_ts; //used for measuring time elapsed.
 
@@ -88,4 +92,6 @@ double toc();
 
 
 int binarySearch(string array[], int lowerbound, int upperbound, string key);
+
+bool myfunction (string i, string j);
 #endif

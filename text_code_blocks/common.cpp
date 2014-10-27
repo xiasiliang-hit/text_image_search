@@ -14,6 +14,8 @@ bool comp_int_int_small(const pair<int, int>& l, const pair<int, int>& r) {
 }
 */
 
+bool myfunction (string i, string j) { return (i>j); }
+
 bool mycompfunc_double(const pair<double, int>& l, const pair<double, int>& r) {
     return l.first > r.first;
 }
@@ -93,6 +95,7 @@ void tic(){
 double toc(){
 	return double(clock() - begin_ts) / CLOCKS_PER_SEC;
 }
+
 
 int binarySearch(string array[], int lowerbound, int upperbound, string key)
 {

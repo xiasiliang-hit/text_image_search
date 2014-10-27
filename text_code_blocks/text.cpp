@@ -17,12 +17,14 @@ const string wordfilename_bin = prefix + "mapper.bin";
 
 const string pointerfilemane_bin = prefix + "pointer.bin";
 
+const string newdictfilename = prefix + "newmaper.text";
 
 bool comp_int_double(const pair<int, double>& l, const pair<int, double>& r);
 bool comp_int_int_small(const pair<int, int>& l, const pair<int, int>& r);
 
-string TEXT::total_title[sz_title + 1];
 string TEXT::total_word[sz_dict + 1];
+//vector<string> TEXT::total_word(sz_dict + 1);
+string TEXT::total_title[sz_title + 1] ;
 double TEXT::total_freq[sz_dict + 1];
 
 int TEXT::pointer[sz_dict + 1];
@@ -274,13 +276,26 @@ void TEXT::read_dict()
 
     while (fin >> word)
     {
-
+        word = stem_my(word);
 
         //words.push_back(word);
         total_word[i] = (word);
         i++;
     }
     fin.close();
+
+    /*
+    ofstream ofs;
+    ofs.open(newdictfilename.c_str());
+    for (int i = 0; i<= sz_dict - 1; i++ )
+    {
+
+        ofs << total_word[i] << endl;
+    }
+
+
+    ofs.close();
+    */
 }
 
 void TEXT::read_freq()
@@ -497,7 +512,7 @@ void TEXT::read_index_bin()
     }
 }
 
-
+/*
 void TEXT::write_word_bin()
 {
     FILE* fin;
@@ -523,6 +538,7 @@ void TEXT::write_word_bin()
         cout << "error: " + pointerfilemane_bin << endl;
     }
 }
+*/
 
 //return a row of index
 //beign will be pointer to the beignning of the row, end will be pointed the end of the row
@@ -665,29 +681,47 @@ vector< pair<int, double> > TEXT::merge_grades(vector< vector< pair <int, double
     return result;
 }
 
+
+
 vector<int> TEXT::process_query(string str)
 {
     vector<string> preprocessed_str  = preprocess(str);
     vector<int> result(preprocessed_str.size());
+/*
+    cout << preprocessed_str[0] << endl;
+    cout << preprocessed_str[1] << endl;
+    cout << preprocessed_str[2] << endl;
+    cout << preprocessed_str[3] << endl;
+*/
 
     for (vector<string>::iterator it = preprocessed_str.begin(); it <= preprocessed_str.end()-1; it++)
     {
         //cout << *it << endl;
         string str(*it);
 
-        int pos = binarySearch(TEXT::total_word, 0, sz_dict, str);
+        int pos = //binary_search(total_word.begin(), total_word.end(), str);
+    binarySearch(total_word, 0, sz_dict, str);
 
-        int p = 0;
         //int pos = 0;
         if (pos != -1)
         {
             //pos = p - TEXT::total_word;
             result.push_back(pos);
         }
+
         else
         {}
     }
+
+    return result;
 }
+
+
+string TEXT::stem_python_to_c(string str)
+{
+    return stem_my(str);
+}
+
 
 
 /*
@@ -706,3 +740,5 @@ void error_msg(char* function, char* msg, char* para = "")
     }
 }
 */
+
+

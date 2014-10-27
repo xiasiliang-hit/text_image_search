@@ -49,6 +49,8 @@ public:
     }
 */
 
+
+//    static vector<string> total_word;
     static string total_title[sz_title + 1] ;
     static string total_word[sz_dict + 1];
     static double total_freq[sz_dict + 1];
@@ -123,5 +125,7 @@ public:
     //process query string, tokenize, lower case, stem
     //return code of keywords
     vector<int> process_query(string str);
+
+    string stem_python_to_c(string str);
 };
 #endif

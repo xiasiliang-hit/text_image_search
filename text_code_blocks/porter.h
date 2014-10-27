@@ -22,6 +22,9 @@ void increase_s();
 void stemfile(FILE * f);
 
 string stem_my(string s);
+
+//stem_my is invoked
+//lower case, filter special characters, stem
 vector<string> preprocess(string str);
 
 #endif // PORTER_INCLUDED

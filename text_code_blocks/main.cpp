@@ -8,6 +8,8 @@ using namespace std;
 
 const string objfilename_bin = "text.bin";
 
+
+
 /*
 void dump(TEXT& t)
 {
@@ -183,10 +185,17 @@ void parallel_thread_main(void* params)
 }
 
 
+
+
+
 int main(){
 
+FILE* f = fopen("./model/stem.txt", "r");
+stemfile(f);
 
-string s = "Unotux Boys Suits Formal Wedding Eggplant Purple Satin Bow Tie from Baby to Teen";
+
+
+string s = "Boy Boys Boi boi";
 
 
 /*
@@ -204,17 +213,37 @@ for (vector<string>::iterator it = str_v.begin(); it <= str_v.end()-1; it++)
 
 //cout << stem_my("words") << endl;
 
+
+
+
+
     TEXT t;
     t.read_txt();
+    vector<int> preprocessed = t.process_query(s);
+
+
+
+    cout << preprocessed[0] << endl;
+    cout << preprocessed[1] << endl;
+    cout << preprocessed[2] << endl;
+    cout << preprocessed[3] << endl;
+
+return 0;
+    /*
     t.write_index_bin();
     //t.write_freq_bin();
-    t.write_word_bin();
+    //t.write_word_bin();
     t.read_index_bin();
 
 
     vector<int> preprocessed = t.process_query(s);
 
     vector< vector<int> > assigned_i(n_machine);
+    */
+
+
+
+
 /*
 //manager machine
     if (true)

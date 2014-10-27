@@ -82,3 +82,58 @@
 	<cstring>
 	"common.h"
 
+1414196529 source:/home/danny/work/text_image_search/text_code_blocks/common.cpp
+	"common.h"
+
+1414196068 /home/danny/work/text_image_search/text_code_blocks/common.h
+	<stdio.h>
+	<string.h>
+	<memory.h>
+	<cmath>
+	<algorithm>
+	<vector>
+	<queue>
+	<string>
+	<ctime>
+	<fstream>
+	<map>
+	<iostream>
+	"stdio.h"
+	<sstream>
+	<utility>
+	<boost/serialization/string.hpp>
+	<boost/serialization/vector.hpp>
+	<boost/archive/text_oarchive.hpp>
+	<boost/archive/text_iarchive.hpp>
+
+1414199160 source:/home/danny/work/text_image_search/text_code_blocks/main.cpp
+	"stdio.h"
+	"text.h"
+	"common.h"
+	"parallel.h"
+	"porter.h"
+
+1414197776 /home/danny/work/text_image_search/text_code_blocks/text.h
+	"common.h"
+	"porter.h"
+
+1413493756 /home/danny/work/text_image_search/text_code_blocks/porter.h
+	"common.h"
+
+1413419049 /home/danny/work/text_image_search/text_code_blocks/parallel.h
+	<vector>
+	<pthread.h>
+	<cstring>
+	"common.h"
+
+1414191212 source:/home/danny/work/text_image_search/text_code_blocks/parallel.cpp
+	"parallel.h"
+
+1414194361 source:/home/danny/work/text_image_search/text_code_blocks/porter.cpp
+	"porter.h"
+	"common.h"
+
+1414198073 source:/home/danny/work/text_image_search/text_code_blocks/text.cpp
+	"text.h"
+	"common.h"
+

@@ -39,6 +39,10 @@
 		<Unit filename="common.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="main.h" />
+		<Unit filename="parallel.cpp" />
+		<Unit filename="parallel.h" />
+		<Unit filename="porter.cpp" />
+		<Unit filename="porter.h" />
 		<Unit filename="text.cpp" />
 		<Unit filename="text.h" />
 		<Extensions>

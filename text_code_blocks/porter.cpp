@@ -362,6 +362,7 @@ void stemfile(FILE * f)
 }
 
 
+
 string stem_my(string str)
 {
     s = (char *) malloc(i_max+1);
@@ -459,7 +460,7 @@ vector<string> preprocess(string str)
     if (true)
         for (vector<string>::iterator it = result.begin(); it <= result.end()-1; it++)
         {
-            cout << * it << endl;
+            cout << *it << endl;
         }
 
     return result;
