@@ -33,12 +33,14 @@
 			<Add option="-fexceptions" />
 			<Add directory="include" />
 		</Compiler>
+		<Unit filename="include/Engine.h" />
 		<Unit filename="include/common.h" />
 		<Unit filename="include/main.h" />
 		<Unit filename="include/parallel.h" />
 		<Unit filename="include/porter.h" />
 		<Unit filename="include/text.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Engine.cpp" />
 		<Unit filename="src/common.cpp" />
 		<Unit filename="src/parallel.cpp" />
 		<Unit filename="src/porter.cpp" />

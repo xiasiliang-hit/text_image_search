@@ -1,12 +1,15 @@
 #include "stdio.h"
+
+
 #include "text.h"
 #include "common.h"
 #include "parallel.h"
 #include "porter.h"
-
+#include "Engine.h"
+#include "database.h"
 using namespace std;
 
-const string objfilename_bin = "text.bin";
+//const string objfilename_bin = "text.bin";
 
 
 
@@ -189,13 +192,100 @@ void parallel_thread_main(void* params)
 
 
 
+void test()
+{
+
+//    DB db;
+    Engine txt(TXT);
+
+    //Engine img(IMAGE);
+    txt.encode_ndup();
+    txt.write_bin();
+
+    //Engine com(txt, img);
+
+    //Engine fusion(COMBINE);
+
+    int* p = NULL;
+    int* count = 0;
+
+    const int itemid = 0;
+
+//    int num = db.get_row(itemid, p, count);
+
+    //fusion.get_row(0, p, count);
+
+    //db.get_row();
+
+//    cout << num << endl;
+
+ //   for (int* x = p; x<= p+num-1; x++)
+ //   {
+ //       cout << *x << endl;
+  //  }
+
+    //com.write_bin();
+}
 
 int main(){
 
 //FILE* f = fopen("./model/stem.txt", "r");
 //stemfile(f);
 
+//Engine en(TXT);
+//en.build_dict();
+//en.encode_ndup();
+//en.read_bin();
 
+
+
+test();
+/*
+char* strArr []= {"boy", "Boys", "Boi", "are", "hello"};
+
+for (int i = 0; i<= 5-1; i++ )
+{
+    char* s = strArr[i];
+    //const char* cstr = s.c_str();
+
+    int len = strlen(s);
+
+    stem(s, 0, len-1);
+
+    cout << s << endl;
+}
+*/
+
+
+
+
+/*
+#pragma omp parallel default (none) shared (sum, arra) private (i, j, k, m)
+#pragma omp parallel num_threads(4)
+
+int arra [10000000][10000000];
+int sum = 0;
+{
+    #pragma omp for
+    for (int i = 0; i<=10000000-1; i++)
+    {
+        for (int j = 0; j<=10000000-1; j++)
+            arra[i][j] = 1;
+    }
+
+    for (int k = 0; k <= 10000000-1; k++)
+    {
+        for (int m = 0; m <= 10000000-1; m++)
+        {
+            sum += arra[k][m];
+            //printf("%d:%d", k, m);
+        }
+    }
+    cout << sum << endl;
+}
+*/
+
+/*
 
 string s = "Boy Boys Boi boi";
 
@@ -217,19 +307,19 @@ for (vector<string>::iterator it = str_v.begin(); it <= str_v.end()-1; it++)
 
 
 
-
+/*
 
     TEXT t;
     t.read_txt();
     //vector<int> preprocessed = t.process_query(s);
 
-/*
+
 
     cout << preprocessed[0] << endl;
     cout << preprocessed[1] << endl;
     cout << preprocessed[2] << endl;
     cout << preprocessed[3] << endl;
-*/
+
 
 
     cout << t.total_index[0].title_image_code << t.total_index[0].feature_repeat <<endl;
@@ -243,7 +333,7 @@ for (vector<string>::iterator it = str_v.begin(); it <= str_v.end()-1; it++)
     //t.write_freq_bin();
     //t.write_word_bin();
     t.read_index_bin();
-
+*/
 
     //vector<int> preprocessed = t.process_query(s);
 
@@ -259,13 +349,13 @@ for (vector<string>::iterator it = str_v.begin(); it <= str_v.end()-1; it++)
         cout << t.total_index[i].title_image_code <<":" << t.total_index[i].feature_repeat <<endl;
         }
     }
-*/
+
 
     cout << t.total_index[0].title_image_code << t.total_index[0].feature_repeat <<endl;
     cout << t.total_index[1].title_image_code << t.total_index[0].feature_repeat <<endl;
 
     cout << t.total_index[sz_total_index-1].title_image_code << t.total_index[0].feature_repeat << endl;
-
+*/
 
 
 /*

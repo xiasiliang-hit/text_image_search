@@ -2,8 +2,9 @@
 1414200725 source:/home/danny/work/text_image_search/Datascience/src/common.cpp
 	"common.h"
 
-1414208594 /home/danny/work/text_image_search/Datascience/include/common.h
+1414376152 /home/danny/work/text_image_search/Datascience/include/common.h
 	<stdio.h>
+	<stdlib.h>
 	<string.h>
 	<memory.h>
 	<cmath>
@@ -67,14 +68,31 @@
 	"porter.h"
 	"common.h"
 
-1414208234 source:/home/danny/work/text_image_search/Datascience/main.cpp
+1414438629 source:/home/danny/work/text_image_search/Datascience/main.cpp
 	"stdio.h"
 	"text.h"
 	"common.h"
 	"parallel.h"
 	"porter.h"
+	"Engine.h"
+	"database.h"
 
-1414208422 source:/home/danny/work/text_image_search/Datascience/src/text.cpp
+1414337114 source:/home/danny/work/text_image_search/Datascience/src/text.cpp
 	"text.h"
 	"common.h"
+
+1414438397 /home/danny/work/text_image_search/Datascience/include/Engine.h
+	"common.h"
+	<stdio.h>
+	<stdlib.h>
+
+1414438747 source:/home/danny/work/text_image_search/Datascience/src/Engine.cpp
+	"Engine.h"
+
+1414438321 source:/home/danny/work/text_image_search/Datascience/src/database.cpp
+	"database.h"
+
+1414438009 /home/danny/work/text_image_search/Datascience/include/database.h
+	"common.h"
+	"Engine.h"
 

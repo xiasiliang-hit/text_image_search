@@ -2,6 +2,7 @@
 #define COMMON_H
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <memory.h>
@@ -21,6 +22,10 @@
 
 #include <sstream>
 #include <utility>
+
+#define text_candidate 1470
+#define text_NDUP 15501
+
 /*
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/vector.hpp>
