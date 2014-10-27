@@ -36,13 +36,14 @@ int binary_search(const vector<string>& sorted_vec, string key) {
 
 Engine::Engine(string image_txt_type)
 {
-    read_para();
+
 
     this->image_txt_type = image_txt_type;
 
     //this->n_candidate = text_candidate;
     //this->n_NDUP = text_NDUP;
 
+    read_para();
     this->pointer = new int[n_candidate+1];
     this->ENCODE_NDUP = new int[n_NDUP+1];
     this->COUNT_NDUP = new int[n_NDUP+1];
@@ -453,16 +454,32 @@ void Engine::write_para()
 {
     string filename = prefix + image_txt_type + para_filename;
     ofstream fout(filename.c_str());
-    fout << n_candidate << n_NDUP << endl;
+    if (fout)
+    {
+    fout << n_candidate <<" " << n_NDUP << endl;
     fout.close();
+    }
+    else
+    {
+        cout << "error:" << filename << endl;
+    }
 }
 
 void Engine::read_para()
 {
     string filename = prefix + image_txt_type + para_filename;
     ifstream fin(filename.c_str());
+
+    if (fin)
+    {
+
     fin >> n_candidate >> n_NDUP;
     fin.close();
+    }
+    else
+    {
+        cout << "error:" << filename << endl;
+    }
 }
 
 

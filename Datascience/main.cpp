@@ -195,7 +195,7 @@ void parallel_thread_main(void* params)
 void test()
 {
 
-//    DB db;
+    DB db;
     Engine txt(TXT);
 
     //Engine img(IMAGE);
@@ -211,18 +211,18 @@ void test()
 
     const int itemid = 0;
 
-//    int num = db.get_row(itemid, p, count);
+    int num = db.get_row(itemid, p, count);
 
     //fusion.get_row(0, p, count);
 
     //db.get_row();
 
-//    cout << num << endl;
+    cout << num << endl;
 
- //   for (int* x = p; x<= p+num-1; x++)
- //   {
- //       cout << *x << endl;
-  //  }
+    for (int* x = p; x<= p+num-1; x++)
+    {
+        cout << *x << endl;
+    }
 
     //com.write_bin();
 }
